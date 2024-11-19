@@ -1,15 +1,15 @@
 #include "kochsche-kurve.h"
-#include <SFML/graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <cmath>
 
 sf::VertexArray koch(sf::VertexArray& Knoten) {
 	sf::VertexArray output(sf::LineStrip);
 
 	for (int i = 0; i < Knoten.getVertexCount() - 1; i++) {
-		// aktuellen punkt der liste anhängen
+		// aktuellen punkt der liste anhï¿½ngen
 		output.append(Knoten[i]);
 
-		// linie aus aktuellem und nächsten punkt in der liste bilden
+		// linie aus aktuellem und nï¿½chsten punkt in der liste bilden
 		sf::Vector2f X = Knoten[i].position;
 		sf::Vector2f Y = Knoten[i + 1].position;
 
@@ -21,10 +21,10 @@ sf::VertexArray koch(sf::VertexArray& Knoten) {
 		// mittelpunkt M bestimmen
 		sf::Vector2f M = X + delta / 2.0f;
 
-		// länge der strecke XA bestimmen
+		// lï¿½nge der strecke XA bestimmen
 		double a = std::sqrt(pow(A.x - X.x, 2) + pow(A.y - X.y, 2));
 
-		// höhe des neuen dreiecks
+		// hï¿½he des neuen dreiecks
 		double h = std::sqrt(3) / 2 * a;
 
 		// zweiten vektor orthogonal zum ersten erstellen
@@ -32,7 +32,7 @@ sf::VertexArray koch(sf::VertexArray& Knoten) {
 		// vektor normieren
 		double deltaLen = sqrt(pow(delta.x, 2) + pow(delta.y, 2));
 		delta = sf::Vector2f(1 / deltaLen * delta.x, 1 / deltaLen * delta.y);
-		// vektor auf länge h bringen
+		// vektor auf lï¿½nge h bringen
 		delta = sf::Vector2f(h * delta.x, h * delta.y);
 
 		// neuen punkt C bestimmen
@@ -43,7 +43,7 @@ sf::VertexArray koch(sf::VertexArray& Knoten) {
 		output.append(B);
 	}
 
-	// letzten punkt in der liste am vertex array anhängen
+	// letzten punkt in der liste am vertex array anhï¿½ngen
 	output.append(Knoten[Knoten.getVertexCount() - 1]);
 
 	return output;
@@ -53,7 +53,7 @@ sf::VertexArray rotate(sf::VertexArray& Knoten, double angle_deg, sf::Vector2f c
 	sf::Transform transform;
 	sf::VertexArray rotated(sf::LineStrip);
 
-	// mittelpunkt und winkel für transform festlegen
+	// mittelpunkt und winkel fï¿½r transform festlegen
 	transform.translate(center);
 	transform.rotate(angle_deg);
 	transform.translate(-center);

@@ -1,22 +1,22 @@
-#include <SFML/Graphics.hpp>
 #include "kochsche-kurve.h"
+#include <SFML/Graphics.hpp>
 #include <ctime>
 #include <iostream>
 
-const int window_width = 1280;
-const int window_height = 1280;
+const int window_height = 1000;
+const int window_width = window_height;
 const int padding = window_width / 20;
-const int max_iterations = 4; // wird sehr schnell sehr groß
+const int max_iterations = 5; // wird sehr schnell sehr groï¿½
 const int delta_time = 1;
 const bool snowflake = true;
-const bool rotation = false;
 const bool loop = true;
+const bool rotation = false;
 
 sf::VertexArray setupArray() {
     sf::VertexArray Knoten(sf::LineStrip);
 
     if (snowflake == true) {
-        // drei punkte für dreieck bestimmen
+        // drei punkte fï¿½r dreieck bestimmen
         sf::Vector2f A(padding, window_height - 6 * padding);
         sf::Vector2f B(window_width - padding, window_height - 6 * padding);
         sf::Vector2f C(window_width / 2, padding);
@@ -28,7 +28,7 @@ sf::VertexArray setupArray() {
         Knoten.append(A);
     }
     else {
-        // zwei punkte für einfache linie bestimmen
+        // zwei punkte fï¿½r einfache linie bestimmen
         Knoten.append(sf::Vector2f(padding, window_height - padding));
         Knoten.append(sf::Vector2f(window_width - padding, window_height - padding));
     }
@@ -57,9 +57,9 @@ int main() {
                 window.close();
         }
 
-        // lässt die iterationen langsam nacheinander laufen statt alle auf einmal
+        // lï¿½sst die iterationen langsam nacheinander laufen statt alle auf einmal
         // sieht ganz cool aus
-        // wenn loop = true wird das vertex array nach der letzten iteration zurückgesetzt
+        // wenn loop = true wird das vertex array nach der letzten iteration zurï¿½ckgesetzt
         if ((time(NULL) - last_run >= delta_time) && (iterations <= max_iterations)) {
             last_run = time(NULL);
             iterations++;

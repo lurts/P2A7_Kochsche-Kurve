@@ -1,8 +1,8 @@
 #pragma once
 
-#include <SFML/graphics.hpp>
+#include <SFML/Graphics.hpp>
 
-// Funktion, die die nächste Iteration der Kurve bestimmt
+// Funktion, die die nï¿½chste Iteration der Kurve bestimmt
 sf::VertexArray koch(sf::VertexArray& Knoten);
 
 // VertexArray drehen
