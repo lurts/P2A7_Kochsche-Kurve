@@ -9,13 +9,20 @@ const bool snowflake = true;
 const bool loop = true;
 const bool rotation = false;
 
+#ifdef _WIN32
+// Windows-Pfad für die Schriftart
+#define FONT "C:/Windows/Fonts/arial.ttf"
+#elif __linux__
+// Linux-Pfad für die Schriftart
+#define FONT "/usr/share/fonts/google-noto/NotoSans-Black.ttf"
+#endif
 
-
-sf::VertexArray setupArray(unsigned int window_width, unsigned int window_height, unsigned int padding) {
+sf::VertexArray setupArray(unsigned int window_width, unsigned int window_height, unsigned int padding = 0, bool triangle = 0) {
     sf::VertexArray Knoten(sf::LineStrip);
 
-    if (snowflake == true) {
+    if (triangle == true) {
         // drei punkte f�r dreieck bestimmen
+        // vierter punkt wird benötigt um dreieck zu schließen
         sf::Vector2f A(padding, window_height - 6 * padding);
         sf::Vector2f B(window_height - padding, window_height - 6 * padding);
         sf::Vector2f C(window_height / 2, padding);
@@ -31,8 +38,8 @@ sf::VertexArray setupArray(unsigned int window_width, unsigned int window_height
     }
     else {
         // zwei punkte f�r einfache linie bestimmen
-        Knoten.append(sf::Vector2f(padding, window_height - padding));
-        Knoten.append(sf::Vector2f(window_width - padding, window_height - padding));
+        Knoten.append(sf::Vector2f(padding, window_height - 2 * padding));
+        Knoten.append(sf::Vector2f(window_width - padding, window_height - 2 * padding));
     }
 
     return Knoten;
@@ -41,13 +48,24 @@ sf::VertexArray setupArray(unsigned int window_width, unsigned int window_height
 int main() {
     sf::VertexArray Knoten(sf::LineStrip);
 
+    // fenstergröße auf maximale auflösung des bildschirms setzen
     unsigned int window_width = sf::VideoMode::getDesktopMode().width;
     unsigned int window_height= sf::VideoMode::getDesktopMode().height;
+    // padding damit ein wenig platz zum bildschirmrand bleibt
     unsigned int padding = window_height / 20;
 
     sf::RenderWindow window(sf::VideoMode(window_width, window_height), "Kochsche Kurve", sf::Style::Fullscreen);
 
-    Knoten = setupArray(window_width, window_height, padding);
+    // declare font:
+    /* --Lade Schrift aus Datei. */
+    sf::Font font;
+    if (!font.loadFromFile(FONT))
+    {
+        return -1;
+    }
+
+    // neues array anlegen
+    Knoten = setupArray(window_width, window_height, padding, snowflake);
 
     time_t last_run = time(NULL);
     unsigned int iterations = 0;
@@ -70,6 +88,7 @@ int main() {
                 }
             }
         }
+        window.setFramerateLimit(30);
 
         // l�sst die iterationen langsam nacheinander laufen statt alle auf einmal
         // sieht ganz cool aus
@@ -82,7 +101,7 @@ int main() {
             //std::cout << "Ran Koch iteration\n";
         }
         else if ((iterations > max_iterations) && (loop == true)) {
-            Knoten = setupArray(window_width, window_height, padding);
+            Knoten = setupArray(window_width, window_height, padding, snowflake);
             iterations = 0;
         }
 
@@ -91,9 +110,14 @@ int main() {
             Knoten = rotate(Knoten, 0.1f, sf::Vector2f(window_width / 2, window_height / 2));
         }
 
+        sf::Text vertCount(std::to_string(Knoten.getVertexCount()), font);
+        vertCount.setCharacterSize(20);
+        vertCount.setFillColor(sf::Color::White);
+
         // fenster aktualisieren und alles neu anzeigen
         window.clear();
         window.draw(Knoten);
+        window.draw(vertCount);
         window.display();
     }
 }

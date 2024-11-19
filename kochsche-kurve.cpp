@@ -28,15 +28,15 @@ sf::VertexArray koch(sf::VertexArray& Knoten) {
 		double h = std::sqrt(3) / 2 * a;
 
 		// zweiten vektor orthogonal zum ersten erstellen
-		delta = sf::Vector2f(delta.y, -delta.x);
+		sf::Vector2f orth = sf::Vector2f(delta.y, -delta.x);
 		// vektor normieren
-		double deltaLen = sqrt(pow(delta.x, 2) + pow(delta.y, 2));
-		delta = sf::Vector2f(1 / deltaLen * delta.x, 1 / deltaLen * delta.y);
+		double deltaLen = sqrt(pow(orth.x, 2) + pow(orth.y, 2));
+		orth = sf::Vector2f(1 / deltaLen * orth.x, 1 / deltaLen * orth.y);
 		// vektor auf l�nge h bringen
-		delta = sf::Vector2f(h * delta.x, h * delta.y);
+		orth = sf::Vector2f(h * orth.x, h * orth.y);
 
 		// neuen punkt C bestimmen
-		sf::Vector2f C = M + delta;
+		sf::Vector2f C = M + orth;
 
 		output.append(A);
 		output.append(C);
