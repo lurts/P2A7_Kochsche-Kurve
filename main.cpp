@@ -9,6 +9,8 @@ const bool snowflake = true;
 const bool loop = true;
 const bool rotation = false;
 
+
+
 sf::VertexArray setupArray(unsigned int window_width, unsigned int window_height, unsigned int padding) {
     sf::VertexArray Knoten(sf::LineStrip);
 
